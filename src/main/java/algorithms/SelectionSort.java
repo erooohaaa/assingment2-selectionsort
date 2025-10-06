@@ -5,11 +5,13 @@ import metrics.PerformanceTracker;
 public class SelectionSort {
 
     public static void sort(int[] arr, PerformanceTracker tracker) {
+        if (arr == null || arr.length <= 1) return;
+
         int n = arr.length;
-        tracker.startTimer();
 
         for (int i = 0; i < n - 1; i++) {
             int minIndex = i;
+            boolean swapped = false;
 
             for (int j = i + 1; j < n; j++) {
                 tracker.incrementComparisons();
@@ -20,14 +22,11 @@ public class SelectionSort {
 
             if (minIndex != i) {
                 swap(arr, i, minIndex, tracker);
+                swapped = true;
             }
 
-            if (isSorted(arr)) {
-                break;
-            }
+            if (!swapped) break;
         }
-
-        tracker.stopTimer();
     }
 
     private static void swap(int[] arr, int i, int j, PerformanceTracker tracker) {
@@ -35,14 +34,5 @@ public class SelectionSort {
         int temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
-    }
-
-    private static boolean isSorted(int[] arr) {
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i] < arr[i - 1]) {
-                return false;
-            }
-        }
-        return true;
     }
 }

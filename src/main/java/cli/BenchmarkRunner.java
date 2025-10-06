@@ -36,10 +36,17 @@ public class BenchmarkRunner {
 
     private static void runSingleTest(Scanner scanner) {
         System.out.print("Enter array size: ");
-        int n = Integer.parseInt(scanner.nextLine());
-        int[] arr = generateRandomArray(n);
+        int n;
+        try {
+            n = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid number, try again.");
+            return;
+        }
 
+        int[] arr = generateRandomArray(n);
         PerformanceTracker tracker = new PerformanceTracker();
+
         tracker.startTimer();
         SelectionSort.sort(arr, tracker);
         tracker.stopTimer();
@@ -74,9 +81,9 @@ public class BenchmarkRunner {
                 );
             }
 
-            System.out.println("\n✅ Results saved to results.csv successfully!");
+            System.out.println("\n Results saved to results.csv successfully!");
         } catch (IOException e) {
-            System.out.println("❌ Error writing to CSV: " + e.getMessage());
+            System.out.println(" Error writing to CSV: " + e.getMessage());
         }
     }
 
